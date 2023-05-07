@@ -11,7 +11,7 @@ extern 'C'
     // other declarations go here
     char differ(const void *a, const void *b);
     void *neu(const void *clazz, ...);
-    void del(void *obj);
+    void detach(Obj_t child);
     int istypeof(const void *o, const void *type);
     int stringOf(const void *o, char *buf, size_t buflen);
 #ifdef __cplusplus

@@ -7,11 +7,11 @@
 
 static void cstr(void *obj, va_list *arg)
 {
-    // printf("Obj constructor \n");
+    warn("Obj: constructor \n");
 }
 static void dstr(void *obj)
 {
-    // printf("Obj destructor \n");
+    warn("Obj: destructor \n");
 }
 static int rpr(const void *b, char *str, int length)
 {
@@ -82,12 +82,31 @@ void *neu(const void *clazz, ...)
     va_start(arg, clazz);
     class->cstr(child, &arg);
     va_end(arg);
+
+    // printf("%p, %p\n", *(void **)child, class);
     return child;
 }
-void del(void *child)
+void detach(Obj_t child)
 {
-    if (((Obj_t)child)->count)
-        return;
+    if (child)
+    {
+        if (child->count)
+        {
+            ((int *)&child->count)[0]--;
+        }
+        else
+        {
+            del(child, 0xDA7E);
+        }
+    }
+}
+void del(void *child, int magicNo)
+{
+    if (magicNo != 0xDA7E)
+    {
+        printf("call to del() is depreciated. Call detach() instaed\n");
+        exit(-1);
+    }
     const struct ObjClass *class = *(const struct ObjClass **)child;
     class->dstr(child);
     free(child);

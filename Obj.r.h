@@ -3,6 +3,9 @@
 
 #include <stdarg.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include "Obj.h"
+#include "ansi-colors.h"
 
 #ifdef __cplusplus
 extern 'C'
@@ -57,14 +60,35 @@ extern 'C'
         if (child)
             ((int *)&child->count)[0]++;
     }
-    static inline void detach(Obj_t child)
+    static inline void fatalErr(char *msg,...)
     {
-        if (child ? child->count : 0)
-        {
-            ((int *)&child->count)[0]--;
-        }
+        printf(RED);
+        va_list arg;
+        va_start(arg, msg);
+        vprintf(msg, arg);
+        va_end(arg);
+        printf(COLOR_RESET);
+        exit(-1);
     }
-
+    static inline void err(char *msg, ...)
+    {
+        printf(MAG);
+        va_list arg;
+        va_start(arg, msg);
+        vprintf(msg, arg);
+        va_end(arg);
+        printf(COLOR_RESET);
+        exit(-1);
+    }
+    static inline void warn(char *msg, ...)
+    {
+        printf(YEL);
+        va_list arg;
+        va_start(arg, msg);
+        vprintf(msg, arg);
+        va_end(arg);
+        printf(COLOR_RESET);
+    }
 #ifdef __cplusplus
 }
 #endif
