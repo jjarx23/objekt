@@ -1,4 +1,4 @@
-TITLE := obj
+TITLE := objekt
 OUT := $(TITLE)
 CC := gcc
 CFLAGS := -c 
