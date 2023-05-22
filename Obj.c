@@ -75,6 +75,8 @@ void *privateInit(struct ObjClass *type, void *obj, ...)
 void *neu(const void *clazz, ...)
 {
     const struct ObjClass *class = clazz;
+    if (class->name == name && clazz != Obj)
+        err("Class %p is not %s. Correct name.\n");
     void *child = malloc(size(class));
     memset(child, 0, size(class));
     *(const struct ObjClass **)child = class;
